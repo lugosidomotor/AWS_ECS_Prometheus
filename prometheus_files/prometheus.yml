@@ -1,0 +1,92 @@
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+
+  external_labels:
+      monitor: 'ver-site-monitor'
+
+rule_files:
+  - 'alert.rules'
+ 
+alerting:
+  alertmanagers:
+    - static_configs:
+      - targets: ['alertmanager:9093']
+
+scrape_configs:
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['localhost:9090']
+      
+  - job_name: 'node'
+    ec2_sd_configs:
+      - region: us-east-1
+        port: 9100
+    relabel_configs:
+      - source_labels: [__meta_ec2_tag_Owner]
+        regex: epam
+        action: keep
+      - source_labels: [__meta_ec2_tag_Environment]
+        target_label: env
+      - source_labels: [__meta_ec2_tag_Node]
+        target_label: role
+      - source_labels: [__meta_ec2_tag_Environment, __meta_ec2_tag_Node, __meta_ec2_private_ip]
+        separator: '--'
+        target_label: instance
+        
+  - job_name: 'cadvisor'
+    scrape_interval: 5s
+    ec2_sd_configs:
+      - region: us-east-1
+        port: 8080
+    relabel_configs:
+      - source_labels: [__meta_ec2_tag_Owner]
+        regex: epam
+        action: keep
+      - source_labels: [__meta_ec2_tag_Environment]
+        target_label: env
+      - source_labels: [__meta_ec2_tag_Node]
+        target_label: role
+      - source_labels: [__meta_ec2_tag_Environment, __meta_ec2_tag_Node, __meta_ec2_private_ip]
+        separator: '--'
+        target_label: instance
+        
+  - job_name: 'nginx'
+    scrape_interval: 5s
+    ec2_sd_configs:
+      - region: us-east-1
+        port: 9113
+    relabel_configs:
+      - source_labels: [__meta_ec2_tag_Owner]
+        regex: epam
+        action: keep
+      - source_labels: [__meta_ec2_tag_Environment]
+        target_label: env
+      - source_labels: [__meta_ec2_tag_Node]
+        regex: frontend
+        action: keep
+        target_label: role
+      - source_labels: [__meta_ec2_tag_Environment, __meta_ec2_tag_Node, __meta_ec2_private_ip]
+        separator: '--'
+        target_label: instance
+        
+  - job_name: 'spring'
+    scrape_interval: 5s
+    metrics_path: '/actuator/prometheus'
+    ec2_sd_configs:
+      - region: us-east-1
+        port: 8090
+    relabel_configs:
+      - source_labels: [__meta_ec2_tag_Owner]
+        regex: epam
+        action: keep
+      - source_labels: [__meta_ec2_tag_Environment]
+        target_label: env
+      - source_labels: [__meta_ec2_tag_Node]
+        regex: backend
+        action: keep
+        target_label: role
+      - source_labels: [__meta_ec2_tag_Environment, __meta_ec2_tag_Node, __meta_ec2_private_ip]
+        separator: '--'
+        target_label: instance

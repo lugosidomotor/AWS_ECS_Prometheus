@@ -1,0 +1,59 @@
+version: "3.2"
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+     - ./prometheus_files/prometheus.yml:/etc/prometheus/prometheus.yml
+     - ./prometheus_files/alert.rules:/etc/prometheus/alert.rules
+    command: "--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus"
+    ports:
+     - 9090:9090
+     
+  alertmanager:
+    image: prom/alertmanager:latest
+    ports:
+      - 9093:9093
+    volumes:
+      - ./alertmanager/config.yml:/etc/alertmanager/config.yml
+    restart: always
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+     - 3000:3000
+    depends_on:
+      - prometheus
+    volumes:
+      - type: bind
+        source: ./grafana_files/dashboards
+        target: /etc/grafana/provisioning/dashboards
+      - type: bind
+        source: ./grafana_files/datasources
+        target: /etc/grafana/provisioning/datasources
+     
+  exporter:
+    image: prom/node-exporter:latest
+    ports:
+     - 9100:9100
+    volumes:
+      - /:/host:ro,rslave
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--path.rootfs=/host'
+      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc|var|run)($$|/)'
+    restart: unless-stopped
+
+  cadvisor:
+    image: google/cadvisor:latest
+    container_name: cadvisor
+    ports:
+    - 8080:8080
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro

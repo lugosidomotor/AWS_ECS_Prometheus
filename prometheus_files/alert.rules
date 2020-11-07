@@ -1,0 +1,54 @@
+groups:
+- name: nodes
+  rules:
+  - alert: InstanceDown
+    expr: up{job="node"} == 0
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      title: "Instance {{ $labels.instance }} down"
+      summary: "Instance {{ $labels.instance }} down"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 2 minutes."
+    
+  - alert: LowFreeDiskSpace
+    expr: 1-(node_filesystem_free_bytes{job="node",fstype=~"ext4|xfs"} / node_filesystem_size_bytes{job="node" ,fstype=~"ext4|xfs"}) > 80
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      title: "Low free disk space on {{ $labels.instance }}"
+      summary: "Low free disk space on {{ $labels.instance }}"
+      description: "Disk usage over 80% on {{ $labels.instance }}"
+      
+  - alert: HighRamUsage
+    expr: 1 - (node_memory_MemAvailable_bytes{job="node"} / (node_memory_MemTotal_bytes{job="node"})) > 80
+    for: 10m
+    labels:
+      severity: warning
+    annotations:
+      title: "High RAM usage on {{ $labels.instance }}"
+      summary: "High RAM usage on {{ $labels.instance }}"
+      description: "RAM usage on {{ $labels.instance }} has been over 80% for more than 10 minutes."
+      
+  - alert: HighCpuUsage
+    expr: avg(irate(node_cpu_seconds_total{mode="system"}[10m])) by (instance)  > 0.5
+    for: 10m
+    labels:
+      severity: warning
+    annotations:
+      title: "High CPU usage on {{ $labels.instance }}"
+      summary: "High CPU usage on {{ $labels.instance }}"
+      description: "CPU usage on {{ $labels.instance }} has been over 50% for more than 10 minutes."  
+ 
+- name: nginx
+  rules:
+  - alert: NginxDown
+    expr: nginx_up{job="nginx"} == 0
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      title: "NGINX down on {{ $labels.instance }}"
+      summary: "NGINX down on {{ $labels.instance }}"
+      description: "NGINX on {{ $labels.instance }} has been down for more than 2 minutes."
