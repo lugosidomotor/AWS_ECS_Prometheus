@@ -25,35 +25,35 @@ scrape_configs:
           target_label: __metrics_path__
           regex: (.+)
 
-    - job_name: 'ecs-30s'
-      scrape_interval: 30s
-      file_sd_configs:
-        - files:
-            - /home/ubuntu/prometheus-ecs-sd/30s-tasks.json
-      relabel_configs:
-        - source_labels: [metrics_path]
-          action: replace
-          target_label: __metrics_path__
-          regex: (.+)
-      
-    - job_name: 'ecs-1m'
-      scrape_interval: 1m
-      file_sd_configs:
-        - files:
-            - /home/ubuntu/prometheus-ecs-sd/1m-tasks.json
-      relabel_configs:
-        - source_labels: [metrics_path]
-          action: replace
-          target_label: __metrics_path__
-          regex: (.+)
+  - job_name: 'ecs-30s'
+    scrape_interval: 30s
+    file_sd_configs:
+      - files:
+          - /home/ubuntu/prometheus-ecs-sd/30s-tasks.json
+    relabel_configs:
+      - source_labels: [metrics_path]
+        action: replace
+        target_label: __metrics_path__
+        regex: (.+)
 
-    - job_name: 'ecs-5m'
-      scrape_interval: 5m
-      file_sd_configs:
-        - files:
-            - /home/ubuntu/prometheus-ecs-sd/5m-tasks.json
-      relabel_configs:
-        - source_labels: [metrics_path]
-          action: replace
-          target_label: __metrics_path__
-          regex: (.+)
+  - job_name: 'ecs-1m'
+    scrape_interval: 1m
+    file_sd_configs:
+      - files:
+          - /home/ubuntu/prometheus-ecs-sd/1m-tasks.json
+    relabel_configs:
+      - source_labels: [metrics_path]
+        action: replace
+        target_label: __metrics_path__
+        regex: (.+)
+
+  - job_name: 'ecs-5m'
+    scrape_interval: 5m
+    file_sd_configs:
+      - files:
+          - /home/ubuntu/prometheus-ecs-sd/5m-tasks.json
+    relabel_configs:
+      - source_labels: [metrics_path]
+        action: replace
+        target_label: __metrics_path__
+        regex: (.+)
