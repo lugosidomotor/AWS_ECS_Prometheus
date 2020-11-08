@@ -1,0 +1,17 @@
+[
+    {
+        "targets": [
+            "172.31.60.248:80"
+        ],
+        "labels": {
+            "instance": "172.31.60.248:80",
+            "job": "nginx",
+            "metrics_path": "/metrics",
+            "ecs_task_id": "2cf515cf646d4886b6513296cd2aed65",
+            "ecs_task_version": "5",
+            "ecs_container_id": "bb164ced-cc71-44f4-bdb2-8417ea60bb23",
+            "ecs_cluster": "demo",
+            "instance_id": "i-08d6a83f4633695c0"
+        }
+    }
+]
