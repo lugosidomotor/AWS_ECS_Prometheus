@@ -1,0 +1,12 @@
+- targets:
+  - 172.31.58.15:0
+  labels:
+    task_arn: arn:aws:ecs:us-east-1:938642921854:task/demo/f3ef8780b25842aeb0ea74eefba361e0
+    task_name: webserver
+    job: nginx
+    task_revision: "2"
+    task_group: family:webserver
+    cluster_arn: arn:aws:ecs:us-east-1:938642921854:cluster/demo
+    container_name: nginx
+    container_arn: arn:aws:ecs:us-east-1:938642921854:container/bb45c2d1-082d-427d-a855-a9bf49b69170
+    docker_image: mhowlett/ngx-stub-status-prometheus
