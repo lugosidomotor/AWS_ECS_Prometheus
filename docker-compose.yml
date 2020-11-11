@@ -5,6 +5,7 @@ services:
     volumes:
      - ./prometheus_files/prometheus.yml:/etc/prometheus/prometheus.yml
      - ./prometheus_files/alert.rules:/etc/prometheus/alert.rules
+     - ./prometheus_files/file_sd_config.yml:/etc/prometheus/file_sd_config.yml
     command: "--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus"
     ports:
      - 9090:9090
