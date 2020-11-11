@@ -4,12 +4,12 @@ scrape_configs:
     scrape_interval: 5s
     static_configs:
       - targets: ['localhost:9090']
-      
-  - job_name: 'ecs-1m'
+
+  - job_name: 'nginx'
     scrape_interval: 1m
     file_sd_configs:
       - files:
-          - /home/ubuntu/prometheus-ecs-sd/1m-tasks.json
+          - /etc/prometheus/file_sd_config.yml
     relabel_configs:
       - source_labels: [metrics_path]
         action: replace
