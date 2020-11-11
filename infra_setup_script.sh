@@ -12,11 +12,12 @@ sudo apt-get install -y docker.io
 sudo apt-get install -y docker-compose
 sudo apt install -y python3-pip
 sudo apt  install -y awscli
-sudo apt  install golang-go
-sudo apt  install gccgo-go
+#sudo apt  install golang-go
+#sudo apt  install gccgo-go
 pip3 install boto3
 pip3 install awscli
 
---letölt
+git clone https://github.com/teralytics/prometheus-ecs-discovery.git
+cd prometheus-ecs-discovery/
 sudo docker build -t aws-ser .
 sudo docker run -v /home/ubuntu/AWS_ECS_Prometheus/prometheus_files:/file -e AWS_REGION='us-east-1' -e AWS_ACCESS_KEY_ID='' -e AWS_SECRET_ACCESS_KEY='' aws-ser -config.write-to /file 
