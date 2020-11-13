@@ -5,7 +5,7 @@ services:
     environment:
      - AWS_REGION=us-east-1
     volumes:
-     - ./prometheus_files/ecs_file_sd.yml:/ecs_file_sd.yml
+     - ./prometheus_files/sd_file/:/sd_file
 
   prometheus:
     depends_on:
@@ -14,7 +14,7 @@ services:
     volumes:
      - ./prometheus_files/prometheus.yml:/etc/prometheus/prometheus.yml
      - ./prometheus_files/alert.rules:/etc/prometheus/alert.rules
-     - ./prometheus_files/ecs_file_sd.yml:/etc/prometheus/ecs_file_sd.yml
+     - ./prometheus_files/sd_file/ecs_file_sd.yml:/etc/prometheus/ecs_file_sd.yml
     command: "--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus"
     ports:
      - 9090:9090
