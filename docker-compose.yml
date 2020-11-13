@@ -1,7 +1,5 @@
 version: "3.2"
   prometheus:
-    depends_on:
-     - ecs-service-discovery
     image: prom/prometheus:latest
     volumes:
      - ./prometheus_files/prometheus.yml:/etc/prometheus/prometheus.yml
