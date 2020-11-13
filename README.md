@@ -6,3 +6,4 @@
 
 
 sudo docker run --name ecs_sd -d -e AWS_REGION=us-east-1 tkgregory/prometheus-ecs-discovery
+sudo docker exec ecs_sd /bin/sh -c "cat ecs_file_sd.yml" > file_sd_config.yml
