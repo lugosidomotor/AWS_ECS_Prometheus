@@ -1,5 +1,10 @@
 version: "3.2"
 services:
+  ecs-service-discovery:
+    image: tkgregory/prometheus-ecs-discovery
+    environments:
+     -  AWS_REGION=us-east-1
+
   prometheus:
     image: prom/prometheus:latest
     volumes:
