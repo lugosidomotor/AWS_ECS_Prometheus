@@ -14,8 +14,8 @@ sudo apt install -y python3-pip
 sudo apt  install -y awscli
 #sudo apt  install golang-go
 #sudo apt  install gccgo-go
-pip3 install boto3
-pip3 install awscli
+#pip3 install boto3
+#pip3 install awscli
 
 git clone https://github.com/lugosidomotor/AWS_ECS_Prometheus.git
 cd AWS_ECS_Prometheus/
