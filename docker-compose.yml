@@ -2,7 +2,7 @@ version: "3.2"
 services:
   ecs-service-discovery:
     image: tkgregory/prometheus-ecs-discovery
-    environments:
+    environment:
      - AWS_REGION=us-east-1
     volumes:
      - ./prometheus_files/file_sd_config.yml:/ecs_file_sd.yml
