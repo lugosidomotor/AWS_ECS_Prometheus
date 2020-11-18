@@ -1,0 +1,22 @@
+version: "3.2"
+services:
+  ecs-service-discovery:
+    image: tkgregory/prometheus-ecs-discovery
+    environment:
+     - AWS_REGION=us-east-1
+    command: -config.write-to /sd_file
+    volumes:
+     - prometheus_files:/sd_file
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+     - ./prometheus_files/prometheus.yml:/etc/prometheus/prometheus.yml
+     - ./prometheus_files/alert.rules:/etc/prometheus/alert.rules
+     - prometheus_files:/etc/prometheus/sd_file
+    command: "--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus"
+    ports:
+     - 9090:9090
+
+volumes:
+  prometheus_files:
