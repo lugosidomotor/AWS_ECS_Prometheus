@@ -4,7 +4,7 @@ services:
     image: tkgregory/prometheus-ecs-discovery
     environment:
      - AWS_REGION=us-east-1
-    command: -config.write-to /sd_file
+    command: -config.write-to /sd_file/ecs_file_sd.yml
     volumes:
      - prometheus_files:/sd_file
 
